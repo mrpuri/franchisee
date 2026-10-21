@@ -1,0 +1,512 @@
+<title>ISAI Franchise Roadmap</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a working blueprint site — sticky stage tabs, one page per stage, every detail folded into collapsible rows */
+:root{
+  --bg:#f5f6f2; --surface:#ffffff; --ink:#18231f; --muted:#5b6862; --line:#dde2dc;
+  --accent:#0f6a66; --accent-soft:#e2efec; --gate:#9a6409; --gate-soft:#f8eed9; --risk:#a6402c; --risk-soft:#f6e3de;
+  --display:"Newsreader", Georgia, "Times New Roman", serif;
+  --body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111816; --surface:#18211e; --ink:#e7ece8; --muted:#9aa8a1; --line:#2a3531;
+  --accent:#5cc3b8; --accent-soft:#16312d; --gate:#e2ad4f; --gate-soft:#33290f; --risk:#e58a74; --risk-soft:#3a1d16; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111816; --surface:#18211e; --ink:#e7ece8; --muted:#9aa8a1; --line:#2a3531;
+  --accent:#5cc3b8; --accent-soft:#16312d; --gate:#e2ad4f; --gate-soft:#33290f; --risk:#e58a74; --risk-soft:#3a1d16; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1080px;margin:0 auto;padding-block:24px 64px}
+h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1{font-size:clamp(28px,4.6vw,40px);line-height:1.1}
+h2{font-size:clamp(26px,4vw,34px);line-height:1.12}
+h3{font-size:19px;line-height:1.25}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.lede{color:var(--muted);max-width:70ch;font-size:16px}
+.muted{color:var(--muted)}
+
+/* Site header */
+.site{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;justify-content:space-between;padding-bottom:14px}
+.site .brand{display:grid;gap:2px}
+.site .brand span{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.overall{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.bar{width:120px;height:6px;background:var(--line);border-radius:3px;overflow:hidden;display:inline-block}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+
+/* Tabs */
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);
+  display:flex;gap:2px;overflow-x:auto;scrollbar-width:thin;margin-bottom:28px}
+.tab{appearance:none;border:0;background:none;color:var(--muted);cursor:pointer;padding:10px 12px 9px;display:grid;gap:1px;text-align:left;
+  border-bottom:2px solid transparent;white-space:nowrap;font:inherit}
+.tab .tn{font-family:var(--mono);font-size:11px;letter-spacing:.06em}
+.tab .tl{font-size:14px;font-weight:500}
+.tab .tp{font-family:var(--mono);font-size:10.5px}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab[aria-selected="true"] .tn{color:var(--accent)}
+
+.page{display:grid;gap:22px}
+
+/* Stage header */
+.shdr{display:grid;gap:10px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:4px}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;gap:3px;min-width:0}
+.fact b{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.fact span{font-size:14px}
+.fact.g{background:var(--gate-soft);border-color:transparent}
+.fact.g b{color:var(--gate)}
+
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px;border-radius:2px}
+.legend .l-doc::before{background:var(--accent)} .legend .l-sop::before{background:var(--gate)} .legend .l-asset::before{background:var(--muted)}
+button.small{font-family:var(--mono);font-size:12px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:6px 10px;cursor:pointer}
+button.small:hover{border-color:var(--accent)}
+
+.group{display:grid;gap:8px}
+.ghead{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;gap:10px}
+
+/* Collapsible rows */
+.row{display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:start}
+.row input{width:18px;height:18px;margin:17px 0 0 4px;accent-color:var(--accent);cursor:pointer}
+details.fold{background:var(--surface);border:1px solid var(--line);border-radius:8px;min-width:0}
+details.fold>summary{list-style:none;cursor:pointer;padding:13px 16px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
+details.fold>summary::-webkit-details-marker{display:none}
+.chev{width:9px;height:9px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(-45deg);transition:transform .2s;margin-right:2px}
+details.fold[open]>summary .chev{transform:rotate(45deg)}
+.sumt{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;min-width:0}
+.sumt strong{font-weight:600;font-size:15px}
+.owner{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.counts{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+.foldbody{padding:2px 16px 16px 37px;display:grid;gap:12px}
+details.fold[open]>summary{border-bottom:1px dashed var(--line)}
+details.fold[open] .foldbody{padding-top:12px}
+.row.done strong{text-decoration:line-through;color:var(--muted)}
+details.fold.gatefold{background:var(--gate-soft);border-color:transparent}
+details.fold.gatefold strong{color:var(--gate)}
+details.fold.ref>summary strong{font-family:var(--display);font-size:17px;font-weight:600}
+
+.kits{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.kit{border-left:2px solid var(--line);padding:2px 0 2px 10px;min-width:0}
+.kit h5{margin:0 0 3px;font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.kit.doc{border-color:var(--accent)} .kit.sop{border-color:var(--gate)} .kit.asset{border-color:var(--muted)}
+.kit ul,.foldbody ul{margin:0;padding-left:17px;font-size:14px}
+.kit li{margin:1px 0}
+.desc{font-size:14.5px;color:var(--muted);max-width:78ch}
+
+/* Tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:13.5px}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+th{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600}
+td ul{margin:0;padding-left:16px;font-size:13.5px}
+.freq{font-family:var(--mono);font-size:12px;color:var(--accent);white-space:nowrap}
+.sev{font-family:var(--mono);font-size:11px;padding:2px 7px;border-radius:999px;white-space:nowrap}
+.sev.h{background:var(--risk-soft);color:var(--risk)} .sev.m{background:var(--gate-soft);color:var(--gate)}
+
+/* Entity structure */
+.stack{display:grid}
+.layer{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.ent{border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;gap:4px;min-width:0;background:var(--bg)}
+.ent.key{border-color:var(--accent)}
+.ent .tag{font-family:var(--mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.ent h4{margin:0;font-size:15px}
+.ent ul{color:var(--muted);font-size:13px}
+.link{display:flex;align-items:center;gap:10px;padding:7px 0 7px 22px;font-family:var(--mono);font-size:11.5px;color:var(--accent)}
+.link::before{content:"";width:1px;height:24px;background:var(--accent);margin-left:-12px;flex:none}
+
+/* Overview */
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.principles div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.principles b{display:block;font-family:var(--mono);font-size:12px;font-weight:500;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;margin-bottom:2px}
+.principles span{font-size:14px}
+.gantt{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;overflow-x:auto}
+.ginner{min-width:620px;display:grid;gap:7px}
+.grow{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center}
+.grow .gl{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grow .gl button{all:unset;cursor:pointer;color:var(--ink)}
+.grow .gl button:hover{color:var(--accent);text-decoration:underline}
+.gtrack{position:relative;height:18px;background:repeating-linear-gradient(90deg,transparent 0,transparent calc(25% - 1px),var(--line) calc(25% - 1px),var(--line) 25%)}
+.gbar{position:absolute;top:2px;bottom:2px;border-radius:4px;background:var(--accent);opacity:.85}
+.gbar.open{background:repeating-linear-gradient(45deg,var(--accent) 0 6px,transparent 6px 10px);opacity:.6}
+.gaxis{display:grid;grid-template-columns:150px 1fr;gap:12px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.gaxis div:last-child{display:flex;justify-content:space-between}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.card{all:unset;box-sizing:border-box;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;display:grid;gap:6px;min-width:0}
+.card:hover,.card:focus-visible{border-color:var(--accent)}
+.card .cn{font-family:var(--display);font-size:28px;line-height:1;color:var(--accent)}
+.card .ct{font-weight:600;font-size:15.5px}
+.card .cw{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.card .cg{font-size:13px;color:var(--muted)}
+.card .cp{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.card .cp .bar{width:70px}
+
+.pager{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:18px;flex-wrap:wrap}
+.pager button{all:unset;cursor:pointer;display:grid;gap:2px;max-width:48%}
+.pager button:hover .pt{color:var(--accent)}
+.pager .pk{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.pager .pt{font-weight:600}
+.pager .next{text-align:right;margin-left:auto}
+.note{font-size:13px;color:var(--muted);max-width:80ch}
+
+@media (max-width:560px){
+  .foldbody{padding-left:16px}
+  .grow{grid-template-columns:110px 1fr}
+  .gaxis{grid-template-columns:110px 1fr}
+  .bar{width:70px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="site">
+    <div class="brand"><div class="eyebrow">India School of AI · Franchise build</div><h1>ISAI Franchise Roadmap</h1><span>Drafted 21 Oct 2026 · Brand name subject to trademark search</span></div>
+    <div class="overall" aria-live="polite"><span id="allText">0 / 0 steps</span><span class="bar"><i id="allBar"></i></span></div>
+  </header>
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Roadmap stages"></nav>
+  <main id="pages"></main>
+</div>
+
+<script>
+const STRUCTURE = `
+<div class="stack">
+ <div class="layer">
+  <div class="ent key"><span class="tag">New · Pvt Ltd</span><h4>ISAI IP HoldCo</h4><ul><li>Owns ISAI trademarks and domain</li><li>Owns the brand standards manual</li><li>Holds 26–49% of the network SPV</li><li>No students, staff or operations</li></ul></div>
+  <div class="ent"><span class="tag">Existing · Pvt Ltd</span><h4>AST Ventures</h4><ul><li>Owns curriculum and trainer certification</li><li>Holds the NASSCOM relationship</li><li>Keeps its direct institutional accounts</li><li>Shown as "Academic Partner"</li></ul></div>
+ </div>
+ <div class="link">Trademark licence + curriculum &amp; academic services agreement</div>
+ <div class="layer">
+  <div class="ent key"><span class="tag">New · Pvt Ltd · franchisor</span><h4>ISAI Network SPV</h4><ul><li>Partner is MD and majority holder</li><li>Signs and manages every franchisee</li><li>Central billing and payment gateway</li><li>Data fiduciary for learner data</li></ul></div>
+ </div>
+ <div class="link">Franchise agreements · channel / delivery agreement</div>
+ <div class="layer">
+  <div class="ent"><span class="tag">Pvt Ltd / LLP each</span><h4>Franchisees</h4><ul><li>Start as district delivery partners</li><li>"ISAI [City], operated by XYZ"</li><li>Insurance names HoldCo and AST</li></ul></div>
+  <div class="ent"><span class="tag">Brother's accredited entity</span><h4>NSDC delivery unit</h4><ul><li>Government-funded batches only</li><li>Holds accreditation and audit duties</li><li>Never mixed with commercial batches</li></ul></div>
+ </div>
+</div>`;
+
+const AGREEMENTS = `<div class="tbl"><table><thead><tr><th>Agreement</th><th>Parties</th><th>What it secures</th></tr></thead><tbody>
+<tr><td>Founders' agreement</td><td>Harman ↔ Manpreet</td><td>Ownership of HoldCo, Manpreet's role, use of AST content</td></tr>
+<tr><td>Shareholders' agreement</td><td>HoldCo, Partner, (Brother)</td><td>Reserved matters, milestone vesting, information rights, deadlock, call option on breach, drag/tag, non-compete</td></tr>
+<tr><td>Trademark licence</td><td>HoldCo → SPV</td><td>Royalty, quality standards, audit rights, termination, brand reverts on exit</td></tr>
+<tr><td>Curriculum &amp; academic services</td><td>AST → SPV</td><td>Content stays with AST, no derivative works, per-learner fee, AST controls trainers and assessment</td></tr>
+<tr><td>NASSCOM MoU addendum</td><td>AST ↔ NASSCOM</td><td>Consent for network delivery; rules for using the NASSCOM name</td></tr>
+<tr><td>Channel / delivery agreement</td><td>SPV ↔ NSDC unit</td><td>Scope of funded work, compliance ownership, revenue share</td></tr>
+<tr><td>Domain &amp; IP assignment</td><td>Harman → HoldCo</td><td>Domain and brand assets leave your personal name</td></tr>
+<tr><td>Franchise agreement + manual</td><td>SPV → Franchisee</td><td>Fees, territory, central collection, indemnity, insurance, data duties, exit and de-branding</td></tr>
+<tr><td>Data processing agreement</td><td>SPV → Franchisee</td><td>Franchisee as processor; consent rules for minors</td></tr>
+<tr><td>Trainer certification terms</td><td>AST → Trainer</td><td>Standards, recertification, de-certification, confidentiality</td></tr>
+</tbody></table></div>`;
+
+const KRAS = `<div class="tbl"><table><thead><tr><th>Role</th><th>Entity</th><th>Owns</th><th>KRAs</th></tr></thead><tbody>
+<tr><td>Harman</td><td>IP HoldCo</td><td>Brand, strategy, partnerships, board reserved matters</td><td><ul><li>Brand compliance across network</li><li>Institutional and industry partnerships</li><li>Royalty realised vs plan</li></ul></td></tr>
+<tr><td>Head of Academics &amp; Quality</td><td>AST</td><td>Curriculum, trainer academy, assessment, audits</td><td><ul><li>Quarterly content refresh</li><li>Certified trainers vs demand</li><li>Pass and completion rates</li><li>Learner NPS</li><li>Audit coverage of all units</li></ul></td></tr>
+<tr><td>Partner (Network MD)</td><td>SPV</td><td>Franchise sales, onboarding, operations, collections</td><td><ul><li>Units live and active</li><li>Learners certified, not just enrolled</li><li>Collections efficiency</li><li>Franchisee retention and renewal</li><li>Average audit score</li></ul></td></tr>
+<tr><td>Brother (NSDC lead)</td><td>NSDC unit</td><td>Accreditation, funded batches, scheme compliance</td><td><ul><li>Accreditation in good standing</li><li>Funded seats filled</li><li>Clean scheme audits</li><li>Placement percentage</li></ul></td></tr>
+<tr><td>Franchise owner</td><td>Franchisee</td><td>Local sales, institution relationships, delivery</td><td><ul><li>Batches on schedule</li><li>Attendance and completion</li><li>Complaints closed within SLA</li><li>Only approved marketing used</li></ul></td></tr>
+<tr><td>Certified trainer</td><td>Franchisee (certified by AST)</td><td>Session delivery to standard</td><td><ul><li>Session feedback score</li><li>Learner pass rate</li><li>Recertification on time</li></ul></td></tr>
+</tbody></table></div>`;
+
+const REPORTING = `<div class="tbl"><table><thead><tr><th>Report</th><th>From → To</th><th>Frequency</th><th>Contents</th></tr></thead><tbody>
+<tr><td>Unit dashboard</td><td>Franchisee → SPV</td><td class="freq">Weekly</td><td>Enrolments, batches running, attendance, collections, open complaints</td></tr>
+<tr><td>Learner voice</td><td>Learners → AST</td><td class="freq">Per batch</td><td>Feedback, NPS, trainer rating, collected without franchisee mediation</td></tr>
+<tr><td>Network MIS</td><td>SPV → HoldCo board</td><td class="freq">Monthly</td><td>Revenue, royalty due and paid, units by status, certifications, complaints, pipeline</td></tr>
+<tr><td>NSDC compliance</td><td>NSDC unit → SPV</td><td class="freq">Monthly</td><td>Funded batches, attendance integrity, assessments, placement</td></tr>
+<tr><td>Quality audit</td><td>AST → SPV + HoldCo</td><td class="freq">Quarterly</td><td>Scores per unit, trainer compliance, content version in use, corrective actions</td></tr>
+<tr><td>Board meeting</td><td>SPV shareholders</td><td class="freq">Quarterly</td><td>Reserved matters, budget vs actuals, territories, terminations</td></tr>
+<tr><td>Brand renewal</td><td>HoldCo → each unit</td><td class="freq">Annual</td><td>Renew, place on watch, or terminate</td></tr>
+</tbody></table></div>`;
+
+const RISKS = `<div class="tbl"><table><thead><tr><th>Risk</th><th>Severity</th><th>Control</th></tr></thead><tbody>
+<tr><td>Franchising before the unit model is proven</td><td><span class="sev h">High</span></td><td>Pilot gate on unit economics; no franchise sales before it</td></tr>
+<tr><td>Partner optimises for units signed, not outcomes</td><td><span class="sev h">High</span></td><td>Partner economics tied to learners certified and renewals; outcome-based vesting</td></tr>
+<tr><td>Trainer shortage dilutes quality</td><td><span class="sev h">High</span></td><td>Units open only with certified trainers assigned</td></tr>
+<tr><td>NSDC scheme non-compliance</td><td><span class="sev h">High</span></td><td>Separate entity, written rules, monthly compliance report</td></tr>
+<tr><td>Brand not registrable or conflicts</td><td><span class="sev m">Medium</span></td><td>Search before spend; distinctive core mark with descriptor</td></tr>
+<tr><td>Misuse of NASSCOM name</td><td><span class="sev m">Medium</span></td><td>Written MoU position; centrally approved marketing</td></tr>
+<tr><td>Channel conflict with AST's direct accounts</td><td><span class="sev m">Medium</span></td><td>Reserved accounts list in every franchise agreement</td></tr>
+<tr><td>Franchisee financial failure</td><td><span class="sev m">Medium</span></td><td>Financial vetting, central collection, step-in and transfer rights</td></tr>
+<tr><td>Founder bandwidth</td><td><span class="sev m">Medium</span></td><td>Named Head of Academics &amp; Quality before first franchisee signs</td></tr>
+<tr><td>Learner data breach, especially minors</td><td><span class="sev m">Medium</span></td><td>SPV as data fiduciary, DPAs, parental consent flow</td></tr>
+</tbody></table></div>`;
+
+const STAGES = [
+{id:"readiness", short:"Readiness", title:"Internal readiness", when:"Weeks 0–4", start:0, end:1, lead:"Harman",
+ goal:"Settle who owns what, confirm the two partnerships that make or break the model, and agree terms with the partner before any company is formed.",
+ entry:"Decision to explore ISAI with the partner",
+ steps:[
+  {t:"Founders' agreement on ISAI", o:"Harman + Manpreet", d:"Agree whether ISAI sits outside AST, who owns the IP HoldCo, and how AST content will be licensed.", docs:["Founders' agreement (ISAI ownership)","AST board note on licensing intent"], sops:[], assets:["Decision log"]},
+  {t:"Confirm NASSCOM's position in writing", o:"Harman", d:"Can delivery run through a franchise network under the MoU, and how may the NASSCOM name be used?", docs:["Written confirmation from NASSCOM","Draft MoU addendum"], sops:[], assets:["Approved partner-language guide"]},
+  {t:"Confirm NSDC scheme rules", o:"Brother", d:"Identify the scheme and role, and whether centres can be franchised or must each be affiliated.", docs:["Scheme guidelines summary","Accreditation status of brother's entity"], sops:[], assets:["NSDC compliance checklist (draft)"]},
+  {t:"Choose the brand direction", o:"Harman", d:"Decide between a coined core mark or a stylised ISAI, with \"India School of AI\" as descriptor. Run a quick pre-search before any design spend.", docs:["Trademark pre-search notes"], sops:[], assets:["Shortlist of 3–5 marks"]},
+  {t:"Build the financial model v0", o:"Harman + Partner", d:"Unit economics for a district delivery partner and a network P&L for the SPV, IP HoldCo and AST.", docs:["Assumptions sheet"], sops:[], assets:["Financial model (unit + network)"]},
+  {t:"Agree the partner term sheet", o:"Harman", d:"Equity, milestone vesting, reserved matters, royalty per learner certified, and earned exclusivity.", docs:["Non-binding term sheet","Mutual NDA"], sops:[], assets:[]},
+  {t:"Name the quality owner", o:"Harman", d:"Appoint or plan to hire a Head of Academics & Quality, accountable for content, trainers and audits.", docs:["Role description","Offer or appointment letter"], sops:[], assets:["Org chart v1"]}
+ ],
+ gate:["Founders' agreement signed","NASSCOM and NSDC positions confirmed in writing","Term sheet agreed with the partner","Quality owner named"],
+ refs:[]},
+
+{id:"legal", short:"Legal", title:"Legal setup", when:"Weeks 2–10", start:0.5, end:2.5, lead:"Harman with lawyer and CA",
+ goal:"Form the entities, protect the brand and sign the licences that give you control without operating anything.",
+ entry:"Readiness gate met",
+ steps:[
+  {t:"Trademark search and filing", o:"TM attorney", d:"Full search, then file word and logo marks in classes 41, 35, 9 and 42 in the HoldCo's name on a proposed-to-be-used basis.", docs:["Trademark search report","Applications (word + device)","Logo copyright assignment from designer"], sops:["Brand monitoring and opposition SOP"], assets:["Logo and wordmark files"]},
+  {t:"Incorporate the IP HoldCo", o:"CA / company secretary", d:"Pvt Ltd with shareholding as agreed in the founders' agreement.", docs:["Incorporation documents, MoA/AoA","Domain assignment deed (Harman → HoldCo)"], sops:[], assets:["Bank account, PAN, GST registration"]},
+  {t:"Incorporate the Network SPV", o:"Partner + CA", d:"Partner as MD; HoldCo holds 26–49%. Articles mirror the shareholders' agreement.", docs:["Incorporation documents","Shareholders' agreement","Board observer or nominee letter"], sops:["Board meeting and reserved-matters SOP"], assets:["Central payment gateway account"]},
+  {t:"Sign the licences into the SPV", o:"Lawyer", d:"Trademark licence from HoldCo and curriculum licence from AST, both at arm's length.", docs:["Trademark licence agreement","Curriculum & academic services agreement","AST board resolution (related-party approval)"], sops:[], assets:["Royalty and fee schedule"]},
+  {t:"NASSCOM MoU addendum", o:"Harman", d:"Turn the written position into a signed addendum covering network delivery and name use.", docs:["Signed MoU addendum"], sops:["Partner-name usage SOP"], assets:[]},
+  {t:"Channel agreement with the NSDC unit", o:"Partner + Brother", d:"Defines funded-work scope, compliance ownership and revenue share.", docs:["Channel / delivery agreement"], sops:["NSDC batch compliance SOP"], assets:[]},
+  {t:"Insurance and registrations", o:"SPV", d:"Professional indemnity and public liability for the SPV; tax and local registrations in place.", docs:["Insurance policies","GST and professional tax registrations"], sops:[], assets:[]}
+ ],
+ gate:["Trademarks filed (™ in use)","Both companies incorporated with bank and GST","Shareholders' agreement, trademark licence and curriculum agreement signed","NASSCOM addendum and NSDC channel agreement signed"],
+ refs:[
+  {t:"Entity structure", html:STRUCTURE},
+  {t:"Agreements map", html:AGREEMENTS},
+  {t:"Personal firewalls", html:`<ul><li>Don't sit on the SPV board. Control through reserved matters, with a nominee director or observer from HoldCo.</li><li>Set standards and audit them; don't direct daily operations, or you risk being treated as the real operator.</li><li>Have AST's board approve related-party licences at arm's length.</li><li>Require insurance from the SPV and franchisees naming HoldCo and AST as additional insured.</li><li>All learner fees flow through the SPV's central gateway.</li></ul>`}
+ ]},
+
+{id:"product", short:"Product", title:"Product & quality system", when:"Weeks 4–14", start:1, end:3.5, lead:"Head of Academics & Quality",
+ goal:"Build the five levers you keep: locked content, trainer certification, central assessment, central money flow and direct learner feedback.",
+ entry:"Quality owner in role; curriculum licence drafted",
+ steps:[
+  {t:"Package the curriculum", o:"Head of Academics", d:"Convert AST courses into versioned, locked modules delivered from an LMS.", docs:["Curriculum catalogue with version numbers"], sops:["Content release and update SOP"], assets:["LMS with locked course packs","Trainer guides and session plans"]},
+  {t:"Build the trainer academy", o:"Head of Academics", d:"Certification path, assessment, recertification and de-certification.", docs:["Trainer certification terms","Trainer code of conduct"], sops:["Trainer certification SOP","Trainer observation and audit SOP"], assets:["Train-the-trainer course","Certified trainer registry"]},
+  {t:"Central assessment and certificates", o:"AST", d:"Online assessments and certificates issued centrally, with verifiable certificate IDs.", docs:["Assessment policy","Certificate design approval"], sops:["Assessment and certification SOP","Results dispute SOP"], assets:["Assessment platform","Certificate verification page"]},
+  {t:"Brand standards and marketing approval", o:"HoldCo", d:"Approved templates, permitted and forbidden claims, and an approval route.", docs:["Brand standards manual","Claims and advertising policy"], sops:["Marketing approval SOP"], assets:["Template kit (posters, brochures, social)"]},
+  {t:"Central billing flow", o:"SPV", d:"Learner fees collected through the SPV gateway with automatic split to franchisee, royalty and content fee.", docs:["Settlement policy"], sops:["Collections and settlement SOP"], assets:["Payment links and enrolment checkout"]},
+  {t:"Data protection framework", o:"SPV + lawyer", d:"SPV as data fiduciary; consent flows for learners, with parental consent for minors.", docs:["Privacy policy","Consent forms (adult and minor)","Data processing agreement template"], sops:["Data handling and breach SOP"], assets:["Consent capture in enrolment form"]},
+  {t:"Direct learner feedback", o:"AST", d:"Feedback and NPS go straight to AST, not through the franchisee.", docs:[], sops:["Feedback collection and escalation SOP"], assets:["Feedback form and dashboard"]}
+ ],
+ gate:["Course packs live in the LMS","First cohort of certified trainers","Assessment, certificate and billing flows tested end to end","Brand manual and approval route in use"],
+ refs:[
+  {t:"The five levers you keep", html:`<ul><li><b>Content</b>: locked in the LMS; franchisees cannot edit it.</li><li><b>Trainers</b>: only AST-certified trainers deliver; AST can de-certify.</li><li><b>Assessment</b>: run and certified centrally, never by the franchisee.</li><li><b>Money</b>: fees go through the SPV, which pays out shares.</li><li><b>Learner voice</b>: feedback collected directly by AST, plus surprise audits.</li></ul>`}
+ ]},
+
+{id:"pilot", short:"Pilot", title:"Pilot & proof", when:"Months 3–9", start:3, end:9, lead:"Partner, with AST",
+ goal:"Prove the unit economics with 3–5 units run by the partner himself, starting as district delivery partners for schools and colleges.",
+ entry:"Product gate met; legal entities in place",
+ steps:[
+  {t:"Select pilot districts", o:"Partner", d:"Pick districts with reachable institutions that don't overlap AST's reserved accounts.", docs:["Reserved accounts list","Pilot selection memo"], sops:[], assets:["District opportunity sheet"]},
+  {t:"Launch pilot units", o:"Partner", d:"Each unit gets certified trainers, approved marketing and the central billing flow.", docs:["Internal pilot operating agreements"], sops:["Unit launch checklist","Institution onboarding SOP","Batch scheduling and delivery SOP"], assets:["Launch kit","Institution proposal template"]},
+  {t:"Measure everything", o:"SPV + AST", d:"Track cost per learner, trainer cost, batch size, completion, pass rate, NPS and collection days every week.", docs:["Weekly unit dashboard","Monthly pilot review notes"], sops:["Weekly reporting SOP","Complaint handling SOP"], assets:["Reporting dashboard"]},
+  {t:"Write SOPs from what actually happened", o:"Head of Academics + Partner", d:"Turn pilot learnings into operations manual chapters.", docs:["Operations manual draft v1"], sops:["All unit SOPs revised from pilot data"], assets:[]},
+  {t:"Collect proof", o:"SPV", d:"Case studies, institution testimonials and outcome data for the franchise sales pack, with consent.", docs:["Signed consent for testimonials"], sops:[], assets:["2–3 pilot case studies"]}
+ ],
+ gate:["At least 3 units at or above break-even","Completion and NPS at or above target","Collections within agreed days","Operations manual v1 complete"],
+ refs:[
+  {t:"Pilot scorecard", html:`<p class="desc">Suggested starting targets; confirm them in the financial model before launch.</p><div class="tbl"><table><thead><tr><th>Metric</th><th>Why it matters</th><th>Suggested target</th></tr></thead><tbody>
+<tr><td>Units at break-even</td><td>Proves the model works without subsidy</td><td>3 of 5 by month 6 of pilot</td></tr>
+<tr><td>Completion rate</td><td>Quality and engagement</td><td>≥ 80%</td></tr>
+<tr><td>Assessment pass rate</td><td>Certificate credibility</td><td>Within a band set by AST, not 100%</td></tr>
+<tr><td>Learner NPS</td><td>Referrals and renewals</td><td>≥ 40</td></tr>
+<tr><td>Collection days</td><td>Cash health of units</td><td>≤ 30 days</td></tr>
+<tr><td>Trainer utilisation</td><td>Trainer cost vs revenue</td><td>Set from model</td></tr>
+<tr><td>Institution renewals</td><td>Repeat business</td><td>Track from first term</td></tr>
+</tbody></table></div>`}
+ ]},
+
+{id:"package", short:"Package", title:"Franchise packaging", when:"Months 7–10", start:7, end:10, lead:"Partner, with lawyer and AST",
+ goal:"Turn the proven unit into a package a franchisee can buy, priced from pilot numbers, with everything they need to run it to standard.",
+ entry:"Pilot gate met",
+ steps:[
+  {t:"Set the fee model", o:"Harman + Partner", d:"Modest entry fee; most revenue from per-learner royalty collected centrally; minimum performance thresholds.", docs:["Fee and royalty schedule","Unit financial projection for franchisees"], sops:[], assets:["Franchisee ROI calculator"]},
+  {t:"Draft the franchise agreement", o:"Lawyer", d:"Territory, reserved accounts, indemnity, insurance, data obligations, step-in rights, exit and de-branding.", docs:["Franchise agreement","Data processing agreement","Security deposit or guarantee terms"], sops:[], assets:[]},
+  {t:"Finalise the operations manual", o:"Head of Academics", d:"Incorporated by reference so SOPs can change without re-signing every agreement.", docs:["Operations manual v2"], sops:["Full SOP library, indexed"], assets:[]},
+  {t:"Institution sales playbook", o:"Partner", d:"How a franchisee sells into schools and colleges: target list, pitch, pricing bands, proposal and MoU templates.", docs:["Institution MoU template","Proposal templates"], sops:["Institution sales SOP"], assets:["Pitch deck for institutions","Objection handling guide"]},
+  {t:"Support desk design", o:"SPV", d:"How franchisees raise issues, response times and escalation to AST.", docs:["Support SLA"], sops:["Franchisee support and escalation SOP"], assets:["Ticketing or helpdesk setup"]},
+  {t:"Onboarding programme", o:"SPV", d:"Training for owners and staff before they open.", docs:["Onboarding checklist"], sops:["Franchisee onboarding SOP"], assets:["Owner training course"]}
+ ],
+ gate:["Franchise agreement and manual approved by the lawyer","Fee model validated against pilot data","Sales playbook, support desk and onboarding ready"],
+ refs:[
+  {t:"Fee model components", html:`<div class="tbl"><table><thead><tr><th>Component</th><th>Paid by → to</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Entry fee</td><td>Franchisee → SPV</td><td>Covers onboarding, training and launch kit; kept modest</td></tr>
+<tr><td>Per-learner royalty</td><td>Collected centrally → SPV, with share to HoldCo</td><td>Main revenue line; aligns income with learners served</td></tr>
+<tr><td>Content &amp; certification fee</td><td>SPV → AST, per learner</td><td>Pays for curriculum, assessment and certificates</td></tr>
+<tr><td>Trainer certification fee</td><td>Franchisee or trainer → AST</td><td>Covers the trainer academy</td></tr>
+<tr><td>Marketing fund</td><td>Franchisee → SPV</td><td>Network-wide campaigns and lead generation</td></tr>
+<tr><td>Renewal fee</td><td>Franchisee → SPV</td><td>At term renewal, subject to audit standing</td></tr>
+</tbody></table></div>`}
+ ]},
+
+{id:"sales", short:"Sales", title:"Franchise sales", when:"Months 9–12, then ongoing", start:9, end:12, open:true, lead:"Partner (Network MD)",
+ goal:"Recruit the right franchisees, not the most. Fill wave 1 with operators who already have institutional relationships and can run to standard.",
+ entry:"Packaging gate met; information pack approved",
+ steps:[
+  {t:"Define the ideal franchisee", o:"Partner + Harman", d:"Existing education or computer-training operators, school-group promoters and education sales leaders with local institutional networks and working capital.", docs:["Ideal franchisee profile"], sops:[], assets:["Scoring rubric"]},
+  {t:"Prepare sales collateral", o:"Partner", d:"Everything a prospect needs to decide, with every claim backed by pilot data.", docs:["Franchise information pack","Approved claims list"], sops:[], assets:["Franchise prospectus page","Prospect deck","ROI calculator","Pilot case studies","FAQ"]},
+  {t:"Run lead generation", o:"Partner", d:"Partner's existing distribution network first, then referrals, AST's advisory and institution network, BNI, education expos and targeted digital campaigns.", docs:[], sops:["Lead capture and qualification SOP"], assets:["Franchise CRM","Enquiry form"]},
+  {t:"Plan territories", o:"Partner + HoldCo", d:"District map with reserved accounts marked; exclusivity earned through targets, never sold upfront.", docs:["Territory schedule","Reserved accounts list"], sops:["Territory allocation SOP"], assets:["Territory map"]},
+  {t:"Run the selection funnel", o:"Partner", d:"Application, screening, discovery day, checks, territory offer, letter of intent, agreement.", docs:["Application form","Letter of intent","Deposit terms"], sops:["Franchisee selection SOP (financial, reputational, capability checks)"], assets:["Discovery day agenda"]},
+  {t:"Sign and hand over", o:"SPV", d:"Signed agreement, company documents and insurance in hand before onboarding begins.", docs:["Signed franchise agreement and DPA","Franchisee company KYC documents","Insurance certificates"], sops:["Contract-to-onboarding handover SOP"], assets:[]}
+ ],
+ gate:["Qualified pipeline at least 3× wave-1 target","Wave 1 franchisees signed and passed checks","No claims made outside the approved list"],
+ refs:[
+  {t:"Selection funnel", html:`<div class="tbl"><table><thead><tr><th>Stage</th><th>What happens</th><th>Moves on when</th></tr></thead><tbody>
+<tr><td>1. Enquiry</td><td>Lead captured in CRM, information pack sent</td><td>Application submitted</td></tr>
+<tr><td>2. Screening call</td><td>Fit against ideal profile and rubric</td><td>Rubric score above threshold</td></tr>
+<tr><td>3. Discovery day</td><td>Visit to a pilot unit, meet AST academics</td><td>Both sides want to proceed</td></tr>
+<tr><td>4. Checks</td><td>Financial, reputational and capability checks</td><td>All checks clear</td></tr>
+<tr><td>5. Territory offer</td><td>District and reserved accounts confirmed</td><td>Letter of intent and deposit</td></tr>
+<tr><td>6. Agreement</td><td>Franchise agreement, DPA, insurance</td><td>Signed; handed to onboarding</td></tr>
+</tbody></table></div>`},
+  {t:"What sales must never promise", html:`<ul><li>Guaranteed income or returns</li><li>A "NASSCOM franchise" or "NASSCOM-certified centre"</li><li>Government recognition or affiliation</li><li>Guaranteed placements for learners</li><li>State-level exclusivity that hasn't been earned</li></ul>`}
+ ]},
+
+{id:"operate", short:"Operations", title:"Launch & operations", when:"Months 10–18", start:10, end:18, lead:"Partner, audited by AST",
+ goal:"Open the first wave of 10–15 units in Punjab and North India and run them to standard, with audits and reporting from day one.",
+ entry:"Wave 1 franchisees signed and onboarded",
+ steps:[
+  {t:"Launch wave 1 units", o:"SPV", d:"Assign certified trainers, approve local marketing and activate central billing for each unit.", docs:["Unit launch sign-off"], sops:["Unit launch checklist"], assets:["Launch kit"]},
+  {t:"Run delivery", o:"Franchisees", d:"Batches delivered from the LMS by certified trainers; assessments taken centrally.", docs:["Batch schedules","Attendance records"], sops:["Batch scheduling and delivery SOP","Assessment and certification SOP"], assets:[]},
+  {t:"Collect and settle", o:"SPV", d:"Fees collected centrally; franchisee share, royalty and content fee settled on a fixed cycle.", docs:["Monthly settlement statements"], sops:["Collections and settlement SOP"], assets:["Settlement report"]},
+  {t:"Support franchisees", o:"SPV", d:"Helpdesk within agreed response times; academic issues escalate to AST.", docs:["Support log"], sops:["Franchisee support and escalation SOP"], assets:[]},
+  {t:"Audit and correct", o:"AST", d:"Scheduled and surprise audits; corrective action plans with deadlines.", docs:["Quarterly audit reports","Corrective action plans"], sops:["Quality audit SOP","Corrective action SOP"], assets:["Audit checklist","Network dashboard"]},
+  {t:"Step in or exit when needed", o:"SPV + HoldCo", d:"Clear process for watch status, step-in, transfer to a new operator, or termination and de-branding.", docs:["Notices (watch, breach, termination)"], sops:["Termination and step-in SOP","De-branding checklist"], assets:[]}
+ ],
+ gate:["Wave 1 units hitting pilot benchmarks","Audit scores above threshold","No unresolved brand or compliance breaches"],
+ refs:[
+  {t:"Roles and KRAs", html:KRAS},
+  {t:"Reporting cadence", html:REPORTING},
+  {t:"Risk register", html:RISKS}
+ ]},
+
+{id:"scale", short:"Scale", title:"Scale & govern", when:"Month 18 onward", start:18, end:24, open:true, lead:"Harman + Partner",
+ goal:"Expand by state, add the outcomes layer that gives the certificate value, and keep quality governed centrally.",
+ entry:"Operations gate met",
+ steps:[
+  {t:"State or zone master franchises", o:"Harman + Partner", d:"Only for zones where targets are met; exclusivity earned and revocable.", docs:["Master franchise agreement"], sops:["Master franchisee oversight SOP"], assets:[]},
+  {t:"Build the outcomes layer", o:"Harman", d:"Internships, industry projects and the GCC pipeline connected to ISAI learners.", docs:["Industry partner MoUs"], sops:["Internship and placement SOP"], assets:["Learner portfolio and placement portal"]},
+  {t:"Set up a quality council", o:"Head of Academics", d:"Advisory board members review curriculum and audit trends twice a year.", docs:["Quality council charter"], sops:["Curriculum review SOP"], assets:["Annual quality report"]},
+  {t:"Annual review of fees and content", o:"SPV board", d:"Re-price from network data and retire outdated modules.", docs:["Annual review memo"], sops:[], assets:[]}
+ ],
+ gate:["Growth with stable audit scores","Placement or internship outcomes reported publicly"],
+ refs:[
+  {t:"Criteria to open a new state", html:`<ul><li>Existing units in the region at or above benchmark for two quarters</li><li>Certified trainer supply for the planned units</li><li>Local legal and regulatory check done</li><li>Master franchisee or regional lead selected through the same funnel</li></ul>`}
+ ]}
+];
+
+/* ---------- state ---------- */
+const KEY="isai-roadmap-v2"; let state={};
+try{state=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){state={}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sid=(st,i)=>`${st.id}-${i}`;
+function stageDone(st){return st.steps.filter((_,i)=>state[sid(st,i)]).length}
+
+/* ---------- render ---------- */
+const PAGES=[{id:"overview",short:"Overview"},...STAGES];
+const tabs=document.getElementById("tabs"), pages=document.getElementById("pages");
+
+tabs.innerHTML=PAGES.map((p,i)=>`<button class="tab" role="tab" id="tab-${p.id}" data-go="${p.id}" aria-controls="page-${p.id}">
+  <span class="tn">${i===0?"START":"STAGE "+i}</span><span class="tl">${esc(p.short)}</span><span class="tp" data-tp="${p.id}"></span></button>`).join("");
+
+function kit(cls,label,items){return items.length?`<div class="kit ${cls}"><h5>${label}</h5><ul>${items.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`:""}
+function plural(n,w){return `${n} ${w}${n===1?"":"s"}`}
+function pager(i){
+  const prev=PAGES[i-1], next=PAGES[i+1];
+  return `<div class="pager">${prev?`<button data-go="${prev.id}"><span class="pk">← Previous</span><span class="pt">${esc(prev.title||prev.short)}</span></button>`:""}
+  ${next?`<button class="next" data-go="${next.id}"><span class="pk">Next →</span><span class="pt">${esc(next.title)}</span></button>`:""}</div>`;
+}
+
+function overviewHTML(){
+  const pct=v=>(v/24*100).toFixed(2);
+  return `<section class="page" id="page-overview" role="tabpanel" aria-labelledby="tab-overview">
+   <div class="shdr"><div class="eyebrow">Start here</div><h2>Eight stages from readiness to scale</h2>
+    <p class="lede">Each stage has its own page. Steps sit in collapsible rows showing the owner and how many documents, SOPs and assets they need; open a row for the detail. No stage starts until the previous gate is met. Tick steps as they close; progress stays in this browser.</p></div>
+   <div class="principles">
+    <div><b>Own</b><span>Brand and curriculum IP stay with you and AST.</span></div>
+    <div><b>License</b><span>Content and brand go to the network under revocable licences.</span></div>
+    <div><b>Operate elsewhere</b><span>The partner's SPV and franchisees carry operations and its risk.</span></div>
+    <div><b>Ring-fence</b><span>Government-funded NSDC work sits in a separate entity.</span></div>
+   </div>
+   <div class="group"><div class="ghead"><span>Timeline · months from go-ahead</span><span>Hatched = continues</span></div>
+    <div class="gantt"><div class="ginner">
+     ${STAGES.map(s=>`<div class="grow"><div class="gl"><button data-go="${s.id}">${esc(s.title)}</button></div><div class="gtrack"><span class="gbar${s.open?" open":""}" style="left:${pct(s.start)}%;width:${pct(s.end-s.start)}%" title="${esc(s.when)}"></span></div></div>`).join("")}
+     <div class="gaxis"><div></div><div><span>0</span><span>6</span><span>12</span><span>18</span><span>24</span></div></div>
+    </div></div></div>
+   <div class="group"><div class="ghead"><span>Stages</span></div>
+    <div class="cards">${STAGES.map((s,i)=>`<button class="card" data-go="${s.id}"><span class="cn">${i+1}</span><span class="ct">${esc(s.title)}</span><span class="cw">${esc(s.when)} · ${esc(s.lead)}</span><span class="cg">${esc(s.goal.split(". ")[0])}.</span><span class="cp"><span class="bar"><i data-cb="${s.id}"></i></span><span data-cc="${s.id}"></span></span></button>`).join("")}</div></div>
+   <div class="group"><div class="ghead"><span>Reference</span></div>
+    <details class="fold ref"><summary><span class="chev"></span><span class="sumt"><strong>Critical path: every gate in order</strong></span><span class="counts">${STAGES.reduce((a,s)=>a+s.gate.length,0)} conditions</span></summary>
+     <div class="foldbody">${STAGES.map((s,i)=>`<div><b>${i+1}. ${esc(s.title)}</b><ul>${s.gate.map(g=>`<li>${esc(g)}</li>`).join("")}</ul></div>`).join("")}</div></details>
+    <details class="fold ref"><summary><span class="chev"></span><span class="sumt"><strong>Entity structure at a glance</strong></span><span class="counts">5 entities</span></summary><div class="foldbody">${STRUCTURE}</div></details>
+   </div>
+   <p class="note">This roadmap is a planning tool, not legal advice. Have a corporate or franchise lawyer and a CA confirm entity choices, agreements and tax treatment, and confirm NSDC and NASSCOM terms in writing.</p>
+   ${pager(0)}
+  </section>`;
+}
+
+function stageHTML(s,i){
+  return `<section class="page" id="page-${s.id}" role="tabpanel" aria-labelledby="tab-${s.id}" hidden>
+   <div class="shdr"><div class="eyebrow">Stage ${i} of ${STAGES.length} · ${esc(s.when)}</div><h2>${esc(s.title)}</h2><p class="lede">${esc(s.goal)}</p>
+    <div class="facts"><div class="fact"><b>Lead</b><span>${esc(s.lead)}</span></div><div class="fact"><b>Starts when</b><span>${esc(s.entry)}</span></div><div class="fact g"><b>Done when</b><span>${esc(s.gate[0])}${s.gate.length>1?` + ${s.gate.length-1} more`:""}</span></div></div></div>
+   <div class="toolbar"><div class="legend"><span class="l-doc">Documents</span><span class="l-sop">SOPs</span><span class="l-asset">Assets</span></div>
+    <div style="display:flex;gap:8px"><button class="small" data-expand="${s.id}">Expand all</button><button class="small" data-collapse="${s.id}">Collapse all</button></div></div>
+   <div class="group"><div class="ghead"><span>Steps</span><span data-sc="${s.id}"></span></div>
+    ${s.steps.map((st,k)=>{const id=sid(s,k),on=!!state[id];return `<div class="row${on?" done":""}"><input type="checkbox" id="${id}" ${on?"checked":""} aria-label="Mark done: ${esc(st.t)}">
+     <details class="fold"><summary><span class="chev"></span><span class="sumt"><strong>${esc(st.t)}</strong><span class="owner">${esc(st.o)}</span></span><span class="counts">${[st.docs.length&&plural(st.docs.length,"doc"),st.sops.length&&plural(st.sops.length,"SOP"),st.assets.length&&plural(st.assets.length,"asset")].filter(Boolean).join(" · ")}</span></summary>
+      <div class="foldbody"><p class="desc">${esc(st.d)}</p><div class="kits">${kit("doc","Documents",st.docs)}${kit("sop","SOPs",st.sops)}${kit("asset","Assets",st.assets)}</div></div></details></div>`}).join("")}
+   </div>
+   <div class="group"><div class="ghead"><span>Gate</span></div>
+    <details class="fold gatefold"><summary><span class="chev"></span><span class="sumt"><strong>Exit gate · conditions to move on</strong></span><span class="counts">${plural(s.gate.length,"condition")}</span></summary><div class="foldbody"><ul>${s.gate.map(g=>`<li>${esc(g)}</li>`).join("")}</ul></div></details>
+   </div>
+   ${s.refs.length?`<div class="group"><div class="ghead"><span>Reference</span></div>${s.refs.map(r=>`<details class="fold ref"><summary><span class="chev"></span><span class="sumt"><strong>${esc(r.t)}</strong></span><span></span></summary><div class="foldbody">${r.html}</div></details>`).join("")}</div>`:""}
+   ${pager(i)}
+  </section>`;
+}
+pages.innerHTML=overviewHTML()+STAGES.map((s,i)=>stageHTML(s,i+1)).join("");
+
+/* ---------- progress ---------- */
+function refresh(){
+  let all=0,done=0;
+  STAGES.forEach(s=>{const d=stageDone(s),n=s.steps.length;all+=n;done+=d;
+    const t=`${d}/${n}`;
+    document.querySelector(`[data-tp="${s.id}"]`).textContent=t+" done";
+    document.querySelector(`[data-sc="${s.id}"]`).textContent=t+" done";
+    document.querySelector(`[data-cc="${s.id}"]`).textContent=t+" steps";
+    document.querySelector(`[data-cb="${s.id}"]`).style.width=(d/n*100)+"%";});
+  document.querySelector(`[data-tp="overview"]`).textContent=`${done}/${all} done`;
+  document.getElementById("allText").textContent=`${done} / ${all} steps`;
+  document.getElementById("allBar").style.width=(all?done/all*100:0)+"%";
+}
+pages.addEventListener("change",e=>{
+  if(e.target.type!=="checkbox")return;
+  const id=e.target.id; if(e.target.checked)state[id]=1; else delete state[id];
+  e.target.closest(".row").classList.toggle("done",e.target.checked); save(); refresh();
+});
+
+/* ---------- routing ---------- */
+const IDS=PAGES.map(p=>p.id);
+function show(id,scroll){
+  if(!IDS.includes(id))id="overview";
+  IDS.forEach(p=>{document.getElementById("page-"+p).hidden=p!==id;
+    const t=document.getElementById("tab-"+p);t.setAttribute("aria-selected",p===id?"true":"false");t.tabIndex=p===id?0:-1;});
+  const at=document.getElementById("tab-"+id); at.scrollIntoView({block:"nearest",inline:"nearest"});
+  if(scroll)window.scrollTo({top:0});
+}
+document.addEventListener("click",e=>{
+  const g=e.target.closest("[data-go]");
+  if(g){e.preventDefault();const id=g.dataset.go;try{history.replaceState(null,"","#"+id)}catch(_){}show(id,true);return}
+  const ex=e.target.closest("[data-expand]"),co=e.target.closest("[data-collapse]");
+  if(ex||co){const pg=document.getElementById("page-"+(ex||co).dataset[ex?"expand":"collapse"]);pg.querySelectorAll("details.fold").forEach(d=>d.open=!!ex)}
+});
+tabs.addEventListener("keydown",e=>{
+  if(e.key!=="ArrowRight"&&e.key!=="ArrowLeft")return;
+  const cur=IDS.indexOf(document.querySelector('.tab[aria-selected="true"]').dataset.go);
+  const n=IDS[(cur+(e.key==="ArrowRight"?1:-1)+IDS.length)%IDS.length];show(n,false);document.getElementById("tab-"+n).focus();
+});
+window.addEventListener("hashchange",()=>show(location.hash.slice(1),true));
+show(location.hash.slice(1),false);
+refresh();
+</script>
